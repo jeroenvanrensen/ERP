@@ -34,13 +34,13 @@ def wiener_deconvolution(blurred_img, kernel, K=0.01):
 
 # --- Usage Example ---
 # Load image as grayscale float
-img = cv2.imread("Y1.png")[:, :, 1] / 255.0
+img = cv2.imread("12.png")[:, :, 1] / 255.0
 
 # Define a simple 5x5 blur kernel (Point Spread Function)
 psf = cv2.imread("H1.png")[:, :, 1] / 255.0
 
 # Deconvolve with K (adjust K based on noise levels)
-result = wiener_deconvolution(img, psf, K=10**-3.5)
+result = wiener_deconvolution(img, psf, K=10**-3)
 
 # Clip values to [0, 1] for display
 result = np.clip(result, 0, 1)

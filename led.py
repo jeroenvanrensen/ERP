@@ -2,7 +2,7 @@ from neopixel import Neopixel
 
 numpix = 93
 strip = Neopixel(numpix, 0, 28, "GRB")
-strip.brightness(10)
+strip.brightness(0)
 
 cross = [
     0,
@@ -28,8 +28,15 @@ cross = [
     92,
 ]
 
-for p in cross:
-    strip.set_pixel(p, (255, 255, 255))
+# for p in cross:
+#     strip.set_pixel(p, (255, 255, 255))
+
+strip.set_pixel(0, (255, 255, 255))
+strip.set_pixel(8, (255, 255, 255))
+strip.set_pixel(16, (255, 255, 255))
+strip.set_pixel(24, (255, 255, 255))
+
+strip.set_pixel(92, (255, 255, 255))
 
 
 # strip.fill((255, 0, 0))

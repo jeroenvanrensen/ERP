@@ -31,15 +31,28 @@ cross = [
 # for p in cross:
 #     strip.set_pixel(p, (255, 255, 255))
 
-strip.set_pixel(0, (255, 255, 255))
-strip.set_pixel(8, (255, 255, 255))
-strip.set_pixel(16, (255, 255, 255))
-strip.set_pixel(24, (255, 255, 255))
 
-strip.set_pixel(92, (255, 255, 255))
+# strip.set_pixel(0, (255, 255, 255))
+# strip.set_pixel(8, (255, 255, 255))
+# strip.set_pixel(16, (255, 255, 255))
+# strip.set_pixel(24, (255, 255, 255))
+
+
+def points():
+    strip.set_pixel(72, (255, 255, 255))
+    strip.set_pixel(75, (255, 255, 255))
+    strip.set_pixel(78, (255, 255, 255))
+    strip.set_pixel(81, (255, 255, 255))
+
+
+def psf():
+    strip.set_pixel(92, (255, 255, 255))
 
 
 # strip.fill((255, 0, 0))
-# strip.set_pixel_line(0, 16, (0, 255, 0))
+# strip.set_pixel_line(84, 92, (255, 255, 255))
+
+# psf()
+points()
 
 strip.show()

@@ -1,26 +1,36 @@
-import cv2
+import matplotlib.pyplot as plt
 import numpy as np
-import trackpy as tp
 
-image = cv2.imread("results/result.png")[:, :, 1]
-trackpy_result = tp.locate(image, 21, minmass=2000).to_numpy()
-points = [
-    (trackpy_result[i, 1], trackpy_result[i, 0])
-    for i in range(0, np.shape(trackpy_result)[0])
-]  # Extract x,y-values
+data = np.genfromtxt("sizes.csv", delimiter=",", skip_header=1)
 
-if len(points) != 4:
-    raise Exception(f"ERROR: NOT 4 POINTS (GOT {len(points)} POINTS)")
+tape_distances = [
+    0.1,
+    0.125,
+    0.15,
+    0.175,
+    0.2,
+    0.225,
+    0.25,
+    0.275,
+    0.3,
+]
+led_distances = [5, 7, 9, 11, 13, 15]
 
+for led in led_distances:
+    sizes = data[data[:, 1] == float(led)]
 
-def distance(point1, point2):
-    return np.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
+    xs = []
+    ys = []
+    y_errors = []
 
+    for entry in sizes:
+        xs.append(entry[0])
+        ys.append(0.5 * (entry[2] + entry[3]))
+        y_errors.append(np.abs(entry[2] - entry[3]))
 
-distances = []
-for point in points:
-    for point_ in points:
-        distances.append(distance(point, point_))
+    plt.errorbar(xs, ys, y_errors, label=f"{led}cm")
 
-width, height = np.unique(distances)[-2:]
-print(width, height)
+plt.xlabel("Tape distance (cm)")
+plt.ylabel("Square size (px)")
+plt.legend(loc=2)
+plt.show()

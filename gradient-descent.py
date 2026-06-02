@@ -70,13 +70,12 @@ def grad_descent(psf, img, iters):
     H, Hadj, v, crop, pad = initMatrices(psf)
 
     alpha = np.real(1.8 / (np.max(Hadj * H)))
-    iterations = 0
 
     vk = v
     tk = 1
     xk = v
 
-    for iterations in range(iters):
+    for _ in range(iters):
         x_k1 = xk
         gradient = grad(Hadj, H, vk, img, crop, pad)
         vk -= alpha * gradient
@@ -94,7 +93,7 @@ def restore_image(tape, led):
     psfname = f"measurements/psf/{tape}cm/psf{tape}cm,{led}cm.png"
     imgname = f"measurements/points/{tape}cm/points{tape}cm,{led}cm.png"
 
-    iters = 10**3
+    iters = 10**4
     psf, img = loaddata(psfname, imgname)
     restored = grad_descent(psf, img, iters)
 

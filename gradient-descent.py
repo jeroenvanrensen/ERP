@@ -87,39 +87,41 @@ def grad_descent(psf, img, iters):
     return np.maximum(crop(vk), 0)
 
 
-def restore_image(tape, led):
+def restore_image(n, tape, led):
     start_time = time.perf_counter()
 
-    psfname = f"measurements/psf/{tape}cm/psf{tape}cm,{led}cm.png"
-    imgname = f"measurements/points/{tape}cm/points{tape}cm,{led}cm.png"
+    psfname = f"measurements/psf{n},{tape}cm,{led}cm.png"
+    imgname = f"measurements/points{n},{tape}cm,{led}cm.png"
 
     iters = 10**4
     psf, img = loaddata(psfname, imgname)
     restored = grad_descent(psf, img, iters)
 
     cv2.imwrite(
-        f"results/result{tape}cm,{led}cm.png",
+        f"results/result{n},{tape}cm,{led}cm.png",
         (restored / np.max(restored) * 255).astype(np.uint8),
     )
 
     end_time = time.perf_counter()
     execution_time = (end_time - start_time) / 60
-    print(f"Finished tape {tape}cm, led {led}cm ({execution_time:.1f}min).")
+    print(f"Finished n={n}, tape {tape}cm, led {led}cm ({execution_time:.1f}min).")
 
 
 tape_distances = [
-    "0.1",
-    "0.125",
-    "0.15",
-    "0.175",
-    "0.2",
-    "0.225",
-    "0.25",
-    "0.275",
-    "0.3",
+    "0_1",
+    "0_125",
+    "0_15",
+    "0_175",
+    "0_2",
+    "0_225",
+    "0_25",
+    "0_275",
+    "0_3",
 ]
 led_distances = ["5", "7", "9", "11", "13", "15"]
+ns = [1]
 
-for tape in tape_distances:
-    for led in led_distances:
-        restore_image(tape, led)
+for n in ns:
+    for tape in tape_distances:
+        for led in led_distances:
+            restore_image(n, tape, led)

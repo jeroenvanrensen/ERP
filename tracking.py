@@ -7,8 +7,8 @@ def distance(point1, point2):
     return np.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 
-def find_sizes(tape, led):
-    image = cv2.imread(f"results/result{tape}cm,{led}cm.png")[:, :, 1]
+def find_sizes(n, tape, led):
+    image = cv2.imread(f"results/result{n},{tape}cm,{led}cm.png")[:, :, 1]
     trackpy_result = tp.locate(image, 21, minmass=1_000)
     # tp.annotate(trackpy_result, image)
     trackpy_result = trackpy_result.to_numpy()
@@ -40,29 +40,31 @@ def find_sizes(tape, led):
     return (width, height)
 
 
+ns = [1]
 tape_distances = [
-    "0.1",
-    "0.125",
-    "0.15",
-    "0.175",
-    "0.2",
-    "0.225",
-    "0.25",
-    "0.275",
-    "0.3",
+    "0_1",
+    "0_125",
+    "0_15",
+    "0_175",
+    "0_2",
+    "0_225",
+    "0_25",
+    "0_275",
+    "0_3",
 ]
 led_distances = ["5", "7", "9", "11", "13", "15"]
 
 sizes = []
 
-for tape in tape_distances:
-    for led in led_distances:
-        result = find_sizes(tape, led)
-        if result == False:
-            print("Skipped")
-        if result != False:
-            width, height = result
-            sizes.append((float(tape), float(led), width, height))
+for n in ns:
+    for tape in tape_distances:
+        for led in led_distances:
+            result = find_sizes(n, tape, led)
+            if result == False:
+                print("Skipped")
+            if result != False:
+                width, height = result
+                sizes.append((int(n), float(tape), float(led), width, height))
 
-headers = "tape,led,width,height"
+headers = "n,tape,led,width,height"
 np.savetxt("sizes.csv", sizes, delimiter=",", fmt="%s", header=headers, comments="")

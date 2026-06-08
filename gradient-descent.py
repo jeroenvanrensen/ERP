@@ -93,7 +93,7 @@ def restore_image(n, tape, led):
     psfname = f"measurements/psf{n},{tape}cm,{led}cm.png"
     imgname = f"measurements/points{n},{tape}cm,{led}cm.png"
 
-    iters = 10**3
+    iters = 10**4
     psf, img = loaddata(psfname, imgname)
     restored = grad_descent(psf, img, iters)
 
